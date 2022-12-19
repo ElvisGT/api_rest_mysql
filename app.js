@@ -10,6 +10,9 @@ const paths = {
     employees:'/employees'
 }
 
+//middlewares
+app.use(express.json());
+
 //router
 app.use(api_version + paths.employees,employeesRouter);
 

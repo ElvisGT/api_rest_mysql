@@ -1,15 +1,20 @@
 import {pool} from '../db.js';
 
 
-const getEmployees = (req,res) => {
+const getEmployees = async(req,res) => {
+    const [results] = await pool.query('SELECT * FROM employee');
+
     res.json({
-        msg:"Obteniendo empleados"
+        results
     })
 }
 
-const createEmployee = (req,res) => {
+const createEmployee = async(req,res) => {
+    const {name,salary} = req.body;
+    await pool.query("INSERT INTO employee(name,salary) VALUES (?,?)",[name,salary]) 
     res.json({
-        msg:"Creando empleados"
+        ok:true,
+        msg:"Creado exitosamente"
     })
 }
 
@@ -19,9 +24,12 @@ const updateEmployee = (req,res) => {
     })
 }
 
-const deleteEmployee = (req,res) => {
+const deleteEmployee = async (req,res) => {
+    const id = req.params.id;
+    const employee = await pool.query('DELETE FROM employee where id = ?',[id]);
+
     res.json({
-        msg:"Borrando empleados"
+        employee
     })
 }
 

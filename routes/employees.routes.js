@@ -11,9 +11,9 @@ router.get('/',getEmployees)
 
 router.post('/',createEmployee)
 
-router.put('/',updateEmployee)
+router.put('/:id',updateEmployee)
 
-router.delete('/',deleteEmployee)
+router.delete('/:id',deleteEmployee)
 
 
 
