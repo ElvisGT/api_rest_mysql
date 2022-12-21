@@ -1,0 +1,169 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Crud de api rest basico con Mysql",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080",
+      "description": "Documentacion en local"
+    },
+    {
+      "url":"https://crudappjuegos-production.up.railway.app",
+      "description":"Documentacion online"
+    }
+  ],
+  "components": {
+    "schemas": {
+      "Employee": {
+        "type": "object",
+        "properties": {
+          "id":{
+            "type":"number",
+            "example":1
+          },
+          "name":{
+            "type": "string",
+            "example": "Pedro"
+          },
+          "salary":{
+            "type":"int",
+            "example":6000
+          }
+        }
+      }
+    }
+  },
+  "paths": {
+    "/api/v1/employees": {
+      "get": {
+        "summary": "Retorna una lista de los empleados.",
+        "tags": [
+          "Employees"
+        ],
+        "responses": {
+          "200": {
+            "description": "Un array de objetos con los empleados disponibles",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "$ref": "#/components/schemas/Employee"
+                  }
+                }
+              }
+            }
+          }      
+        }
+      },
+      "post": {
+        "summary": "Crea un empleado",
+        "responses": {
+          "201": {
+            "description": "Creado exitosamente"
+          },
+          "400":{
+            "description":"El nombre del empleado ya existe"
+          }
+        },
+        "tags": [
+          "Employees"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "$ref": "#/components/schemas/Employee"
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/employees/{id}": {
+      "get": {
+        "summary": "Retorna un empleado dado un id",
+        "tags": [
+          "Employees"
+        ],
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "description":"ID que debe ser enviado en cada peticion en la url",
+            "schema":{
+              "type":"int"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Un objeto con los detalles del empleado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref":"#/components/schemas/Employee"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete":{
+        "summary":"Eliminar empleado",
+        "tags":["Employees"],
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "description":"Id que se debe mandar en el path de la url",
+            "schema":{
+              "type":"int"
+            }
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Borrado exitosamente"
+          } 
+        }
+      },
+      "update":{
+        "summary":"Actualizar empleado",
+        "tags":["Employees"],
+        "requestBody":{
+          "required":true,
+          "content":{
+            "application/json":{
+              "schema":{
+                "type":"object",
+                "$ref":"#/components/schemas/Employee"
+              }
+            }
+          }
+        },
+        "parameters":[
+          {
+            "name":"id",
+            "in":"path",
+            "description":"Id que se debe mandar en el path de la url",
+            "schema":{
+              "type":"int"
+            }
+          }
+        ],
+        "responses":{
+          "200":{
+            "description":"Actualizado exitosamente"
+          } 
+        }
+      }
+    }
+  }
+}
