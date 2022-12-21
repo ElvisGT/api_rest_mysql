@@ -1,7 +1,11 @@
 import mysql2 from 'mysql2/promise';
+import {DB_DATABASE,
+        DB_PASSWORD,
+        DB_USER} from './config.js';
+
 
 export const pool = mysql2.createPool({
-    database:'companydb',
-    user:'root',
-    password:'elvisgt99'
+    database:DB_DATABASE,
+    user:DB_USER,
+    password:DB_PASSWORD
 })

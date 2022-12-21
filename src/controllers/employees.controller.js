@@ -1,4 +1,4 @@
-import {pool} from '../db.js';
+import {pool} from '../../db.js';
 
 
 const getEmployees = async(req,res) => {
@@ -35,7 +35,7 @@ const updateEmployee = async (req,res) => {
     const id = req.params.id;
     const {name,salary} = req.body;
    
-    await pool.query('UPDATE employee set name = ?,salary = ? where id = ?;',[name,salary,id])
+    await pool.query('UPDATE employee set name = IFNULL(? , name),salary = IFNULL(? , salary) where id = ?;',[name,salary,id])
     
     res.json({
         ok:true,

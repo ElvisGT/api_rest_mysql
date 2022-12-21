@@ -1,4 +1,4 @@
-import { pool } from '../db.js';
+import { pool } from '../../db.js';
 
 export const veriryID = async(req,res,next) => {
   const {id} = req.params;
@@ -16,7 +16,7 @@ export const veriryID = async(req,res,next) => {
 
 export const veriryName = async(req,res,next) => {
   const {name} = req.body;
-  const lowerName = name.toLowerCase();
+  const lowerName = name?.toLowerCase();
   const isEmployee = await pool.query("SELECT * FROM employee where name = ?",[lowerName]);
   
   if(isEmployee[0].length > 0){
