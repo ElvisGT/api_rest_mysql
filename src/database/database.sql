@@ -9,4 +9,9 @@ create table employee (
     primary key(id)
 );
 
+insert into employee (name,salary) values 
+('User1',3000),
+('User2'4000),
+('User3',5000);
+
 describe employee; 
