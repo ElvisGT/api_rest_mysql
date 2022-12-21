@@ -2,18 +2,23 @@ import {Router} from 'express';
 import { getEmployees,
         createEmployee,
         deleteEmployee,
-        updateEmployee } from '../controllers/employees.controller.js';
+        updateEmployee, 
+        getEmployeeID} from '../controllers/employees.controller.js';
+
+import {veriryID,veriryName} from '../middlewares/verify-employee.js';
 
 
 const router = Router();
 
 router.get('/',getEmployees)
 
-router.post('/',createEmployee)
+router.get('/:id',[veriryID],getEmployeeID)
 
-router.put('/:id',updateEmployee)
+router.post('/',[veriryName],createEmployee)
 
-router.delete('/:id',deleteEmployee)
+router.put('/:id',[veriryID,veriryName],updateEmployee)
+
+router.delete('/:id',[veriryID],deleteEmployee)
 
 
 

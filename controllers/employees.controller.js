@@ -11,16 +11,18 @@ const getEmployees = async(req,res) => {
     })
 }
 
+const getEmployeeID = async(req,res) => {
+    const {id} = req.params;
+    const [employee] = await pool.query("SELECT * FROM employee where id = ?",[id]);
+
+
+    res.status(200).json({
+        employee
+    })
+}
+
 const createEmployee = async(req,res) => {
     const {name,salary} = req.body;
-    const lowerName = name.toLowerCase();
-    const isEmployee = await pool.query("SELECT * FROM employee where name = ?",[lowerName]);
-    
-    if(isEmployee[0].length > 0){
-        return res.status(400).json({
-            msg:"El nombre del empleado ya existe"
-        })
-    }
     
     await pool.query("INSERT INTO employee(name,salary) VALUES (?,?)",[name,salary]) 
     res.json({
@@ -32,14 +34,7 @@ const createEmployee = async(req,res) => {
 const updateEmployee = async (req,res) => {
     const id = req.params.id;
     const {name,salary} = req.body;
-    const lowerName = name.toLowerCase();
-    const isEmployee = await pool.query("SELECT * FROM employee where name = ?",[lowerName]);
-    
-    if(isEmployee[0].length > 0){
-        return res.status(400).json({
-            msg:"El nombre del empleado ya existe"
-        })
-    }
+   
     await pool.query('UPDATE employee set name = ?,salary = ? where id = ?;',[name,salary,id])
     
     res.json({
@@ -59,6 +54,7 @@ const deleteEmployee = async (req,res) => {
 
 
 export {getEmployees,
+        getEmployeeID,
         createEmployee,
         updateEmployee,
         deleteEmployee};
